@@ -1,5 +1,5 @@
 {
-	"name": "kth-devops-teammate-actions",
+	"name": "kth-devops-teammate-action",
 	"version": "1.0.0",
 	"description": "KTH Devops course action",
 	"main": "index.js",
