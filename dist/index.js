@@ -1555,19 +1555,10 @@ exports.debug = debug; // for test
 
 /***/ }),
 
-/***/ 258:
+/***/ 716:
 /***/ ((module) => {
 
-let wait = function (milliseconds) {
-  return new Promise((resolve) => {
-    if (typeof milliseconds !== 'number') {
-      throw new Error('milliseconds not a number');
-    }
-    setTimeout(() => resolve("done!"), milliseconds)
-  });
-};
-
-module.exports = wait;
+module.exports = eval("require")("@actions/github");
 
 
 /***/ }),
@@ -1694,23 +1685,43 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 const core = __nccwpck_require__(186);
-const wait = __nccwpck_require__(258);
-
+const github = __nccwpck_require__(716);
 
 // most @actions toolkit packages have async methods
 async function run() {
-  try {
-    const ms = core.getInput('milliseconds');
-    core.info(`Waiting ${ms} milliseconds ...`);
+	try {
+		const token = core.getInput("github_token");
+		const issue = core.getInput("issue");
+		const pr_author = core.getInput("pr_author");
 
-    core.debug((new Date()).toTimeString()); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-    await wait(parseInt(ms));
-    core.info((new Date()).toTimeString());
+		const octokit = github.getOctokit(token);
 
-    core.setOutput('time', new Date().toTimeString());
-  } catch (error) {
-    core.setFailed(error.message);
-  }
+		console.log(`Starting teammate removal for user ${pr_author}`);
+
+		const issue_comments = await octokit.rest.issues.listComments({
+			owner: github.context.repo.owner,
+			repo: github.context.repo.repo,
+			issue_number: issue,
+		});
+
+		let commentsRemoved = 0;
+
+		for (let comment in issue_comments) {
+			if (comment.user.login === pr_author) {
+				await octokit.rest.issues.deleteComment({
+					owner: github.context.repo.owner,
+					repo: github.context.repo.repo,
+					issue_number: comment.id,
+				});
+
+				commentsRemoved++;
+			}
+		}
+
+		console.log(`Remove ${commentsRemoved} comment(s)`);
+	} catch (error) {
+		core.setFailed(error.message);
+	}
 }
 
 run();

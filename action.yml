@@ -1,13 +1,16 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: "Teammate search delete"
+description: "Delete a user comment on the specified issue when this user opens a pull request"
+author: "Corentin Guilloteau"
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
-    required: true
-    default: '1000'
-outputs:
-  time: # output will be available to future steps
-    description: 'The current time after waiting'
+    issue:
+        description: "The teammate finder issue id"
+        required: true
+    pr_author:
+        description: "The author of the pull request for whom to check for a teammate search comment"
+        required: true
+    github_token:
+        description: "The github secret token to use"
+        required: true
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+    using: "node16"
+    main: "dist/index.js"
