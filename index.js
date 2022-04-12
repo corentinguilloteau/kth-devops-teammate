@@ -38,7 +38,9 @@ async function run() {
 				issue_number: issue,
 			});
 
-			console.log("Got " + issue_comments.length() + " comments");
+			console.log(issue_comments);
+
+			console.log("Got " + issue_comments.length + " comments");
 
 			for (let comment in issue_comments) {
 				console.log(comment);
