@@ -8493,6 +8493,8 @@ async function run() {
 			issue_number: pr_id,
 		});
 
+		console.log(pr);
+
 		// We want to be sure it is a proposal
 		// and not a submission
 		if (prIsProposal(pr)) {
@@ -8550,15 +8552,15 @@ function prIsProposal(pr) {
 function getEmailsFromPR(pr) {
 	const sections = pr.body.split("##");
 
-	if (sections.length !== 6) {
+	if (sections.length !== 1) {
 		throw "Wrong PR format";
 	}
 
-	if (sections[2].startsWith(" Names and KTH ID")) {
+	if (sections[1].startsWith(" Names and KTH ID")) {
 		throw "Wrong PR format";
 	}
 
-	return getEmailsInText(sections[2]);
+	return getEmailsInText(sections[1]);
 }
 
 function getEmailsInText(text) {
