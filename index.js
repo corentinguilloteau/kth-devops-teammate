@@ -97,7 +97,7 @@ function getEmailsFromPR(pr) {
 
 	const sections = pr.data.body.split("##");
 
-	if (sections.length !== 5) {
+	if (sections.length !== 6) {
 		console.log("Not enough sections");
 		throw "Wrong PR format";
 	}
