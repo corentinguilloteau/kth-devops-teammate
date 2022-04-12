@@ -92,7 +92,7 @@ function getEmailsFromPR(pr) {
 }
 
 function getEmailsInText(text) {
-	const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@kth\.se$/g;
+	const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@kth\.se$/g;
 
 	const emails = text.match(emailRegex);
 

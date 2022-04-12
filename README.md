@@ -21,6 +21,6 @@ jobs:
             - uses: actions/kth-devops-teammate-action@v1
               with:
                   issue: <issue_id>
-                  pr_author: ${{ github.event.sender.login }}
+                  pr_id: ${{ github.event.pull_request.number }}
                   github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
