@@ -5,8 +5,8 @@ inputs:
     issue:
         description: "The teammate finder issue id"
         required: true
-    pr_author:
-        description: "The author of the pull request for whom to check for a teammate search comment"
+    pr:
+        description: "The PR id"
         required: true
     github_token:
         description: "The github secret token to use"
