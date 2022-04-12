@@ -8511,7 +8511,7 @@ async function run() {
 			console.log("Got " + issue_comments.data.length + " comments");
 			console.log(issue_comments.data);
 
-			for (let comment in issue_comments.data) {
+			for (let comment of issue_comments.data) {
 				console.log(comment);
 				// We make sure this comment has not already been flaged
 				if (!comment.body.includes(editMessage)) {
@@ -8520,7 +8520,7 @@ async function run() {
 					console.log("Comment emails: ");
 					console.log(commentEmails);
 
-					for (let email in commentEmails) {
+					for (let email of commentEmails) {
 						// Check if we have a matching email
 						if (prEmails.includes(email)) {
 							console.log("Match !");
