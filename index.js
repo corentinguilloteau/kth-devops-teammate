@@ -39,6 +39,7 @@ async function run() {
 			});
 
 			console.log("Got " + issue_comments.data.length + " comments");
+			console.log(issue_comments.data);
 
 			for (let comment in issue_comments.data) {
 				console.log(comment);
@@ -103,13 +104,14 @@ function getEmailsFromPR(pr) {
 		throw "Wrong PR format";
 	}
 
-	if (sections[1].startsWith(" Names and KTH ID")) {
-		console.log(sections[1]);
+	if (!sections[2].startsWith(" Names and KTH ID")) {
+		console.log(sections[2]);
 
 		throw "Wrong PR format";
 	}
+	console.log(sections[2]);
 
-	return getEmailsInText(sections[1]);
+	return getEmailsInText(sections[2]);
 }
 
 function getEmailsInText(text) {
