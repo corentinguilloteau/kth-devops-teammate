@@ -8546,11 +8546,11 @@ async function run() {
 }
 
 function prIsProposal(pr) {
-	return pr.title.toLowerCase().contains("proposal");
+	return pr.data.title.toLowerCase().contains("proposal");
 }
 
 function getEmailsFromPR(pr) {
-	const sections = pr.body.split("##");
+	const sections = pr.data.body.split("##");
 
 	if (sections.length !== 1) {
 		throw "Wrong PR format";
