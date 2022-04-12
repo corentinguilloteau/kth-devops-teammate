@@ -14,7 +14,7 @@ async function run() {
 
 		const octokit = github.getOctokit(token);
 
-		console.log(`Starting teammate removal for PR ${pr_id}`);
+		console.log(`Starting teammate detection for PR ${pr_id}`);
 
 		// Fetch the pull request
 		const pr = await octokit.rest.pulls.get({
