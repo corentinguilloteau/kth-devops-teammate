@@ -8471,10 +8471,6 @@ var __webpack_exports__ = {};
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
 
-const editMessage = "AUTO EDIT: Teammate found";
-const prComment =
-	"A comment related to you has been found on the teammate finding issue. Your comment has been marked as closed. Please edit it back if it is an error.";
-
 // most @actions toolkit packages have async methods
 async function run() {
 	try {
@@ -8483,8 +8479,6 @@ async function run() {
 		const pr_id = core.getInput("pr_id");
 
 		const octokit = github.getOctokit(token);
-
-		console.log(`Starting teammate detection for PR ${pr_id}`);
 
 		// Fetch the pull request
 		const pr = await octokit.rest.pulls.get({
@@ -8498,9 +8492,6 @@ async function run() {
 		if (prIsProposal(pr)) {
 			const prEmails = getEmailsFromPR(pr);
 
-			console.log("Emails :");
-			console.log(prEmails);
-
 			// We get all the comment for teammate finding
 			const issue_comments = await octokit.rest.issues.listComments({
 				owner: github.context.repo.owner,
@@ -8508,24 +8499,22 @@ async function run() {
 				issue_number: issue,
 			});
 
-			console.log("Got " + issue_comments.data.length + " comments");
-			console.log(issue_comments.data);
+			for (let comment of issue_comments.data) {
+				// We make sure this pull request has not already been handled
+				if (!comment.body.includes(`AUTO EDIT: Teammate found here #${pr_id}`)) {
+					return;
+				}
+			}
 
 			for (let comment of issue_comments.data) {
-				console.log(comment);
 				// We make sure this comment has not already been flaged
-				if (!comment.body.includes(editMessage)) {
+				if (!comment.body.includes(`AUTO EDIT: Teammate found #${pr_id}`)) {
 					const commentEmails = getEmailsInText(comment.body);
-
-					console.log("Comment emails: ");
-					console.log(commentEmails);
 
 					for (let email of commentEmails) {
 						// Check if we have a matching email
 						if (prEmails.includes(email)) {
-							console.log("Match !");
-
-							const newBody = comment.body + "\n\n" + editMessage;
+							const newBody = comment.body + "\n\n" + `AUTO EDIT: Teammate found #${pr_id}`;
 
 							// Edit the issue comment
 							await octokit.rest.issues.updateComment({
@@ -8540,22 +8529,17 @@ async function run() {
 								owner: github.context.repo.owner,
 								repo: github.context.repo.repo,
 								issue_number: pr_id,
-								body: prComment,
+								body: `A [comment](${comment.html_url}) related to @${comment.user.login} has been found on the teammate finding issue. \n\n Your comment has been marked as closed. Please edit it back if it is an error.`,
 							});
 
 							// If a comment has been found we don't need to check for more
 							return;
 						}
 					}
-				} else {
-					console.log("Comment " + comment.id + " contains no emails");
 				}
 			}
-		} else {
-			console.log("Not a proposal");
 		}
 	} catch (error) {
-		console.log(error);
 		core.setFailed(error.message);
 	}
 }
@@ -8565,21 +8549,15 @@ function prIsProposal(pr) {
 }
 
 function getEmailsFromPR(pr) {
-	console.log(pr.data.body);
-
 	const sections = pr.data.body.split("##");
 
 	if (sections.length !== 6) {
-		console.log("Not enough sections");
 		throw "Wrong PR format";
 	}
 
 	if (!sections[2].startsWith(" Names and KTH ID")) {
-		console.log(sections[2]);
-
 		throw "Wrong PR format";
 	}
-	console.log(sections[2]);
 
 	return getEmailsInText(sections[2]);
 }
