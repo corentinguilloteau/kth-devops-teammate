@@ -8501,7 +8501,7 @@ async function run() {
 
 			for (let comment of issue_comments.data) {
 				// We make sure this pull request has not already been handled
-				if (!comment.body.includes(`AUTO EDIT: Teammate found here #${pr_id}`)) {
+				if (comment.body.includes(`AUTO EDIT: Teammate found here #${pr_id}`)) {
 					return;
 				}
 			}
