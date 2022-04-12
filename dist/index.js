@@ -8490,7 +8490,7 @@ async function run() {
 		const pr = await octokit.rest.pulls.get({
 			owner: github.context.repo.owner,
 			repo: github.context.repo.repo,
-			issue_number: pr_id,
+			pull_number: pr_id,
 		});
 
 		console.log(pr);
