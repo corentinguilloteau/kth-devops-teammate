@@ -1,9 +1,10 @@
-name: "Teammate search delete"
-description: "Delete a user comment on the specified issue when this user opens a pull request"
+name: "Teammate finding edit"
+description: "Edits
+comments on the teammate finding issue according to proposal being made"
 author: "Corentin Guilloteau"
 inputs:
     issue:
-        description: "The teammate finder issue id"
+        description: "The teammate finding issue id"
         required: true
     pr_id:
         description: "The PR id"
