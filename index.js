@@ -38,9 +38,10 @@ async function run() {
 				issue_number: issue,
 			});
 
-			console.log("Got " + issue_comments.length + " comments");
+			console.log("Got " + issue_comments.length() + " comments");
 
 			for (let comment in issue_comments) {
+				console.log(comment);
 				// We make sure this comment has not already been flaged
 				if (!comment.body.includes(editMessage)) {
 					const commentEmails = getEmailsInText(comment.body);
@@ -112,7 +113,7 @@ function getEmailsFromPR(pr) {
 }
 
 function getEmailsInText(text) {
-	const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@kth\.se$/g;
+	const emailRegex = /(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@kth\.se/g;
 
 	const emails = text.match(emailRegex);
 
