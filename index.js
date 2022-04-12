@@ -83,6 +83,7 @@ async function run() {
 			console.log("Not a proposal");
 		}
 	} catch (error) {
+		console.log(error);
 		core.setFailed(error.message);
 	}
 }
@@ -92,13 +93,18 @@ function prIsProposal(pr) {
 }
 
 function getEmailsFromPR(pr) {
+	console.log(pr.data.body);
+
 	const sections = pr.data.body.split("##");
 
-	if (sections.length !== 1) {
+	if (sections.length !== 5) {
+		console.log("Not enough sections");
 		throw "Wrong PR format";
 	}
 
 	if (sections[1].startsWith(" Names and KTH ID")) {
+		console.log(sections[1]);
+
 		throw "Wrong PR format";
 	}
 
