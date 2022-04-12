@@ -28,6 +28,9 @@ async function run() {
 		if (prIsProposal(pr)) {
 			const prEmails = getEmailsFromPR(pr);
 
+			console.log("Emails :");
+			console.log(prEmails);
+
 			// We get all the comment for teammate finding
 			const issue_comments = await octokit.rest.issues.listComments({
 				owner: github.context.repo.owner,
@@ -35,14 +38,21 @@ async function run() {
 				issue_number: issue,
 			});
 
+			console.log("Got " + issue_comments.length + " comments");
+
 			for (let comment in issue_comments) {
 				// We make sure this comment has not already been flaged
 				if (!comment.body.includes(editMessage)) {
 					const commentEmails = getEmailsInText(comment.body);
 
+					console.log("Comment emails: ");
+					console.log(commentEmails);
+
 					for (let email in commentEmails) {
 						// Check if we have a matching email
 						if (prEmails.includes(email)) {
+							console.log("Match !");
+
 							const newBody = comment.body + "\n\n" + editMessage;
 
 							// Edit the issue comment
@@ -65,8 +75,12 @@ async function run() {
 							return;
 						}
 					}
+				} else {
+					console.log("Comment " + comment.id + " contains no emails");
 				}
 			}
+		} else {
+			console.log("Not a proposal");
 		}
 	} catch (error) {
 		core.setFailed(error.message);
