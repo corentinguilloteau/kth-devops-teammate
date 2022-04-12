@@ -23,8 +23,6 @@ async function run() {
 			pull_number: pr_id,
 		});
 
-		console.log(pr);
-
 		// We want to be sure it is a proposal
 		// and not a submission
 		if (prIsProposal(pr)) {
@@ -39,12 +37,12 @@ async function run() {
 
 			for (let comment in issue_comments) {
 				// We make sure this comment has not already been flaged
-				if (!comment.body.contains(editMessage)) {
+				if (!comment.body.includes(editMessage)) {
 					const commentEmails = getEmailsInText(comment.body);
 
 					for (let email in commentEmails) {
 						// Check if we have a matching email
-						if (prEmails.contains(email)) {
+						if (prEmails.includes(email)) {
 							const newBody = comment.body + "\n\n" + editMessage;
 
 							// Edit the issue comment
@@ -76,7 +74,7 @@ async function run() {
 }
 
 function prIsProposal(pr) {
-	return pr.data.title.toLowerCase().contains("proposal");
+	return pr.data.title.toLowerCase().includes("proposal");
 }
 
 function getEmailsFromPR(pr) {
