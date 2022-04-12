@@ -5,7 +5,7 @@ inputs:
     issue:
         description: "The teammate finder issue id"
         required: true
-    pr:
+    pr_id:
         description: "The PR id"
         required: true
     github_token:

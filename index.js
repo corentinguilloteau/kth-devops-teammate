@@ -10,7 +10,7 @@ async function run() {
 	try {
 		const token = core.getInput("github_token");
 		const issue = core.getInput("issue");
-		const pr_id = core.getInput("pr");
+		const pr_id = core.getInput("pr_id");
 
 		const octokit = github.getOctokit(token);
 
