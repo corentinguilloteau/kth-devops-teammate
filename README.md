@@ -16,7 +16,7 @@ jobs:
     delete-teammate-search-comments:
         runs-on: ubuntu-latest
         steps:
-            - uses: corentinguilloteau/kth-devops-teammate@v1
+            - uses: corentinguilloteau/kth-devops-teammate@v3
               with:
                   issue: 1
                   pr_id: ${{ github.event.pull_request.number }}
