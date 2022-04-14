@@ -2,7 +2,7 @@
 
 # KTH DevOps course teammate action
 
-This action is meant to be used in the [https://github.com/KTH/devops-course](KTH DevOps course repository). It edits
+This action is meant to be used in the [KTH DevOps course repository](https://github.com/KTH/devops-course). It edits
 comments on the teammate finding issue according to proposal being made.
 
 ## Usage
